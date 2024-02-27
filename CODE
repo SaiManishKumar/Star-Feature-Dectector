@@ -1,0 +1,31 @@
+***CODE***
+
+
+import cv2
+import numpy as np
+from google.colab.patches import cv2_imshow
+
+class StarFeatureDetector(object):
+    def __init__(self):
+        self.detector = cv2.xfeatures2d.StarDetector_create()
+
+    def detect(self, img):
+        return self.detector.detect(img)
+
+if __name__ == '__main__':
+    # Load input image
+    input_file = 'sai.jpg'  # Remove the leading '/'
+    input_img = cv2.imread(input_file)
+
+    # Convert to grayscale
+    img_gray = cv2.cvtColor(input_img, cv2.COLOR_BGR2GRAY)
+
+    # Detect features using Star feature detector
+    keypoints = StarFeatureDetector().detect(img_gray)  # Use grayscale image here
+
+    # Draw keypoints on input image
+    img_with_keypoints = np.copy(input_img)
+    cv2.drawKeypoints(input_img, keypoints, img_with_keypoints, flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+
+    # Display the output image
+    cv2_imshow(img_with_keypoints)
